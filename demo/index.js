@@ -6,7 +6,11 @@ const modelPath = '../model/'; // path to model folder that will be loaded using
 const imgSize = 800; // maximum image size in pixels
 const minScore = 0.3; // minimum score
 const maxResults = 10; // maximum number of results to return
-const samples = ['sample1.jpg', 'sample2.jpg', 'sample3.jpg', 'sample4.jpg', 'sample5.jpg', 'sample6.jpg']; // sample images to be loaded using http
+const samples =
+['sample1.jpg', 'sample2.jpg', 'sample3.jpg',
+'sample4.jpg', 'sample5.jpg',
+'sample6.jpg', 'sample7.jpg',
+'sample8.jpg']; // sample images to be loaded using http
 
 // helper function to pretty-print json object to string
 function str(json) {

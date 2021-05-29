@@ -33,27 +33,7 @@ var __toModule = (module2) => {
 
 // dist/tfjs.esm.js
 var require_tfjs_esm = __commonJS({
-  "dist/tfjs.esm.js"(exports) {
-    var __create2 = Object.create;
-    var __defProp2 = Object.defineProperty;
-    var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
-    var __getOwnPropNames2 = Object.getOwnPropertyNames;
-    var __getProtoOf2 = Object.getPrototypeOf;
-    var __hasOwnProp2 = Object.prototype.hasOwnProperty;
-    var __markAsModule2 = (target) => __defProp2(target, "__esModule", { value: true });
-    var __reExport2 = (target, module22, desc) => {
-      if (module22 && typeof module22 === "object" || typeof module22 === "function") {
-        for (let key of __getOwnPropNames2(module22))
-          if (!__hasOwnProp2.call(target, key) && key !== "default")
-            __defProp2(target, key, { get: () => module22[key], enumerable: !(desc = __getOwnPropDesc2(module22, key)) || desc.enumerable });
-      }
-      return target;
-    };
-    var __toModule2 = (module22) => {
-      return __reExport2(__markAsModule2(__defProp2(module22 != null ? __create2(__getProtoOf2(module22)) : {}, "default", module22 && module22.__esModule && "default" in module22 ? { get: () => module22.default, enumerable: true } : { value: module22, enumerable: true })), module22);
-    };
-    __markAsModule2(exports);
-    __reExport2(exports, __toModule2(require("@tensorflow/tfjs-node")));
+  "dist/tfjs.esm.js"() {
   }
 });
 
@@ -262,7 +242,7 @@ var Dimensions = class {
 
 // src/utils/index.ts
 function isTensor(tensor2, dim) {
-  return tensor2 instanceof tf.Tensor && tensor2.shape.length === dim;
+  return tensor2 instanceof void 0 && tensor2.shape.length === dim;
 }
 function isTensor1D(tensor2) {
   return isTensor(tensor2, 1);
@@ -651,20 +631,20 @@ function nonMaxSuppression(boxes, scores, iouThreshold, isIOU = true) {
 // src/ops/normalize.ts
 var tf2 = __toModule(require_tfjs_esm());
 function normalize(x, meanRgb) {
-  return tf2.tidy(() => {
+  return (void 0)(() => {
     const [r, g, b] = meanRgb;
-    const avg_r = tf2.fill([...x.shape.slice(0, 3), 1], r, "float32");
-    const avg_g = tf2.fill([...x.shape.slice(0, 3), 1], g, "float32");
-    const avg_b = tf2.fill([...x.shape.slice(0, 3), 1], b, "float32");
-    const avg_rgb = tf2.concat([avg_r, avg_g, avg_b], 3);
-    return tf2.sub(x, avg_rgb);
+    const avg_r = (void 0)([...x.shape.slice(0, 3), 1], r, "float32");
+    const avg_g = (void 0)([...x.shape.slice(0, 3), 1], g, "float32");
+    const avg_b = (void 0)([...x.shape.slice(0, 3), 1], b, "float32");
+    const avg_rgb = (void 0)([avg_r, avg_g, avg_b], 3);
+    return (void 0)(x, avg_rgb);
   });
 }
 
 // src/ops/padToSquare.ts
 var tf3 = __toModule(require_tfjs_esm());
 function padToSquare(imgTensor, isCenterImage = false) {
-  return tf3.tidy(() => {
+  return (void 0)(() => {
     const [height, width] = imgTensor.shape.slice(1);
     if (height === width) {
       return imgTensor;
@@ -675,7 +655,7 @@ function padToSquare(imgTensor, isCenterImage = false) {
     const createPaddingTensor = (paddingAmountLocal) => {
       const paddingTensorShape = imgTensor.shape.slice();
       paddingTensorShape[paddingAxis] = paddingAmountLocal;
-      return tf3.fill(paddingTensorShape, 0, "float32");
+      return (void 0)(paddingTensorShape, 0, "float32");
     };
     const paddingTensorAppend = createPaddingTensor(paddingAmount);
     const remainingPaddingAmount = dimDiff - paddingTensorAppend.shape[paddingAxis];
@@ -684,8 +664,8 @@ function padToSquare(imgTensor, isCenterImage = false) {
       paddingTensorPrepend,
       imgTensor,
       paddingTensorAppend
-    ].filter((t) => !!t).map((t) => tf3.cast(t, "float32"));
-    return tf3.concat(tensorsToStack, paddingAxis);
+    ].filter((t) => !!t).map((t) => (void 0)(t, "float32"));
+    return (void 0)(tensorsToStack, paddingAxis);
   });
 }
 
@@ -1318,8 +1298,8 @@ var tf4 = __toModule(require_tfjs_esm());
 async function imageTensorToCanvas(imgTensor, canvas) {
   const targetCanvas = canvas || env.getEnv().createCanvasElement();
   const [height, width, numChannels] = imgTensor.shape.slice(isTensor4D(imgTensor) ? 1 : 0);
-  const imgTensor3D = tf4.tidy(() => imgTensor.as3D(height, width, numChannels).toInt());
-  await tf4.browser.toPixels(imgTensor3D, targetCanvas);
+  const imgTensor3D = (void 0)(() => imgTensor.as3D(height, width, numChannels).toInt());
+  await (void 0).toPixels(imgTensor3D, targetCanvas);
   imgTensor3D.dispose();
   return targetCanvas;
 }
@@ -1430,23 +1410,23 @@ var NetInput = class {
   }
   toBatchTensor(inputSize, isCenterInputs = true) {
     this._inputSize = inputSize;
-    return tf5.tidy(() => {
+    return (void 0)(() => {
       const inputTensors = range(this.batchSize, 0, 1).map((batchIdx) => {
         const input = this.getInput(batchIdx);
-        if (input instanceof tf5.Tensor) {
-          let imgTensor = isTensor4D(input) ? input : tf5.expandDims(input);
+        if (input instanceof void 0) {
+          let imgTensor = isTensor4D(input) ? input : (void 0)(input);
           imgTensor = padToSquare(imgTensor, isCenterInputs);
           if (imgTensor.shape[1] !== inputSize || imgTensor.shape[2] !== inputSize) {
-            imgTensor = tf5.image.resizeBilinear(imgTensor, [inputSize, inputSize], false, false);
+            imgTensor = (void 0).resizeBilinear(imgTensor, [inputSize, inputSize], false, false);
           }
           return imgTensor.as3D(inputSize, inputSize, 3);
         }
         if (input instanceof env.getEnv().Canvas) {
-          return tf5.browser.fromPixels(imageToSquare(input, inputSize, isCenterInputs));
+          return (void 0).fromPixels(imageToSquare(input, inputSize, isCenterInputs));
         }
         throw new Error(`toBatchTensor - at batchIdx ${batchIdx}, expected input to be instanceof tf.Tensor or instanceof HTMLCanvasElement, instead have ${input}`);
       });
-      const batchTensor = tf5.stack(inputTensors.map((t) => tf5.cast(t, "float32"))).as4D(this.batchSize, inputSize, inputSize, 3);
+      const batchTensor = (void 0)(inputTensors.map((t) => (void 0)(t, "float32"))).as4D(this.batchSize, inputSize, inputSize, 3);
       return batchTensor;
     });
   }
@@ -1507,7 +1487,7 @@ async function extractFaceTensors(imageTensor, detections) {
   if (isTensor4D(imageTensor) && imageTensor.shape[0] > 1) {
     throw new Error("extractFaceTensors - batchSize > 1 not supported");
   }
-  return tf6.tidy(() => {
+  return (void 0)(() => {
     const [imgHeight, imgWidth, numChannels] = imageTensor.shape.slice(isTensor4D(imageTensor) ? 1 : 0);
     const boxes = detections.map((det) => det instanceof FaceDetection ? det.forSize(imgWidth, imgHeight).box : det).map((box) => box.clipAtImageBorders(imgWidth, imgHeight));
     const faceTensors = boxes.map(({
@@ -1515,7 +1495,7 @@ async function extractFaceTensors(imageTensor, detections) {
       y,
       width,
       height
-    }) => tf6.slice3d(imageTensor.as3D(imgHeight, imgWidth, numChannels), [y, x, 0], [height, width, numChannels]));
+    }) => (void 0)(imageTensor.as3D(imgHeight, imgWidth, numChannels), [y, x, 0], [height, width, numChannels]));
     return faceTensors;
   });
 }
@@ -1609,7 +1589,7 @@ function getModelUris(uri, defaultModelName) {
 async function loadWeightMap(uri, defaultModelName) {
   const { manifestUri, modelBaseUri } = getModelUris(uri, defaultModelName);
   const manifest = await fetchJson(manifestUri);
-  return tf7.io.loadWeights(manifest, modelBaseUri);
+  return (void 0).loadWeights(manifest, modelBaseUri);
 }
 
 // src/dom/matchDimensions.ts
@@ -1656,10 +1636,10 @@ var NeuralNetwork = class {
     }));
   }
   getTrainableParams() {
-    return this.getParamList().filter((param) => param.tensor instanceof tf8.Variable);
+    return this.getParamList().filter((param) => param.tensor instanceof void 0);
   }
   getFrozenParams() {
-    return this.getParamList().filter((param) => !(param.tensor instanceof tf8.Variable));
+    return this.getParamList().filter((param) => !(param.tensor instanceof void 0));
   }
   variable() {
     this.getFrozenParams().forEach(({ path, tensor: tensor2 }) => {
@@ -1668,7 +1648,7 @@ var NeuralNetwork = class {
   }
   freeze() {
     this.getTrainableParams().forEach(({ path, tensor: variable }) => {
-      const tensor2 = tf8.tensor(variable.dataSync());
+      const tensor2 = (void 0)(variable.dataSync());
       variable.dispose();
       this.reassignParamFromPath(path, tensor2);
     });
@@ -1706,7 +1686,7 @@ var NeuralNetwork = class {
     const { readFile } = env.getEnv();
     const { manifestUri, modelBaseUri } = getModelUris(filePath, this.getDefaultModelName());
     const fetchWeightsFromDisk = (filePaths) => Promise.all(filePaths.map((fp) => readFile(fp).then((buf) => buf.buffer)));
-    const loadWeights = tf8.io.weightsLoaderFactory(fetchWeightsFromDisk);
+    const loadWeights = (void 0).weightsLoaderFactory(fetchWeightsFromDisk);
     const manifest = JSON.parse((await readFile(manifestUri)).toString());
     const weightMap = await loadWeights(manifest, modelBaseUri);
     this.loadFromWeightMap(weightMap);
@@ -1732,7 +1712,7 @@ var NeuralNetwork = class {
       return { obj: res.nextObj, objProp: objProp2, nextObj: res.nextObj[objProp2] };
     }, { nextObj: this.params });
     const { obj, objProp } = result;
-    if (!obj || !objProp || !(obj[objProp] instanceof tf8.Tensor)) {
+    if (!obj || !objProp || !(obj[objProp] instanceof void 0)) {
       throw new Error(`traversePropertyPath - parameter is not a tensor, for path ${paramPath}`);
     }
     return { obj, objProp };
@@ -1745,41 +1725,41 @@ var tf10 = __toModule(require_tfjs_esm());
 // src/common/depthwiseSeparableConv.ts
 var tf9 = __toModule(require_tfjs_esm());
 function depthwiseSeparableConv(x, params, stride) {
-  return tf9.tidy(() => {
-    let out = tf9.separableConv2d(x, params.depthwise_filter, params.pointwise_filter, stride, "same");
-    out = tf9.add(out, params.bias);
+  return (void 0)(() => {
+    let out = (void 0)(x, params.depthwise_filter, params.pointwise_filter, stride, "same");
+    out = (void 0)(out, params.bias);
     return out;
   });
 }
 
 // src/faceFeatureExtractor/denseBlock.ts
 function denseBlock3(x, denseBlockParams, isFirstLayer = false) {
-  return tf10.tidy(() => {
-    const out1 = tf10.relu(isFirstLayer ? tf10.add(tf10.conv2d(x, denseBlockParams.conv0.filters, [2, 2], "same"), denseBlockParams.conv0.bias) : depthwiseSeparableConv(x, denseBlockParams.conv0, [2, 2]));
+  return (void 0)(() => {
+    const out1 = (void 0)(isFirstLayer ? (void 0)((void 0)(x, denseBlockParams.conv0.filters, [2, 2], "same"), denseBlockParams.conv0.bias) : depthwiseSeparableConv(x, denseBlockParams.conv0, [2, 2]));
     const out2 = depthwiseSeparableConv(out1, denseBlockParams.conv1, [1, 1]);
-    const in3 = tf10.relu(tf10.add(out1, out2));
+    const in3 = (void 0)((void 0)(out1, out2));
     const out3 = depthwiseSeparableConv(in3, denseBlockParams.conv2, [1, 1]);
-    return tf10.relu(tf10.add(out1, tf10.add(out2, out3)));
+    return (void 0)((void 0)(out1, (void 0)(out2, out3)));
   });
 }
 function denseBlock4(x, denseBlockParams, isFirstLayer = false, isScaleDown = true) {
-  return tf10.tidy(() => {
-    const out1 = tf10.relu(isFirstLayer ? tf10.add(tf10.conv2d(x, denseBlockParams.conv0.filters, isScaleDown ? [2, 2] : [1, 1], "same"), denseBlockParams.conv0.bias) : depthwiseSeparableConv(x, denseBlockParams.conv0, isScaleDown ? [2, 2] : [1, 1]));
+  return (void 0)(() => {
+    const out1 = (void 0)(isFirstLayer ? (void 0)((void 0)(x, denseBlockParams.conv0.filters, isScaleDown ? [2, 2] : [1, 1], "same"), denseBlockParams.conv0.bias) : depthwiseSeparableConv(x, denseBlockParams.conv0, isScaleDown ? [2, 2] : [1, 1]));
     const out2 = depthwiseSeparableConv(out1, denseBlockParams.conv1, [1, 1]);
-    const in3 = tf10.relu(tf10.add(out1, out2));
+    const in3 = (void 0)((void 0)(out1, out2));
     const out3 = depthwiseSeparableConv(in3, denseBlockParams.conv2, [1, 1]);
-    const in4 = tf10.relu(tf10.add(out1, tf10.add(out2, out3)));
+    const in4 = (void 0)((void 0)(out1, (void 0)(out2, out3)));
     const out4 = depthwiseSeparableConv(in4, denseBlockParams.conv3, [1, 1]);
-    return tf10.relu(tf10.add(out1, tf10.add(out2, tf10.add(out3, out4))));
+    return (void 0)((void 0)(out1, (void 0)(out2, (void 0)(out3, out4))));
   });
 }
 
 // src/common/convLayer.ts
 var tf11 = __toModule(require_tfjs_esm());
 function convLayer(x, params, padding = "same", withRelu = false) {
-  return tf11.tidy(() => {
-    const out = tf11.add(tf11.conv2d(x, params.filters, [1, 1], padding), params.bias);
-    return withRelu ? tf11.relu(out) : out;
+  return (void 0)(() => {
+    const out = (void 0)((void 0)(x, params.filters, [1, 1], padding), params.bias);
+    return withRelu ? (void 0)(out) : out;
   });
 }
 
@@ -1796,8 +1776,8 @@ function disposeUnusedWeightTensors(weightMap, paramMappings) {
 var tf12 = __toModule(require_tfjs_esm());
 function extractConvParamsFactory(extractWeights, paramMappings) {
   return (channelsIn, channelsOut, filterSize, mappedPrefix) => {
-    const filters = tf12.tensor4d(extractWeights(channelsIn * channelsOut * filterSize * filterSize), [filterSize, filterSize, channelsIn, channelsOut]);
-    const bias = tf12.tensor1d(extractWeights(channelsOut));
+    const filters = (void 0)(extractWeights(channelsIn * channelsOut * filterSize * filterSize), [filterSize, filterSize, channelsIn, channelsOut]);
+    const bias = (void 0)(extractWeights(channelsOut));
     paramMappings.push({ paramPath: `${mappedPrefix}/filters` }, { paramPath: `${mappedPrefix}/bias` });
     return { filters, bias };
   };
@@ -1807,8 +1787,8 @@ function extractConvParamsFactory(extractWeights, paramMappings) {
 var tf13 = __toModule(require_tfjs_esm());
 function extractFCParamsFactory(extractWeights, paramMappings) {
   return (channelsIn, channelsOut, mappedPrefix) => {
-    const fc_weights = tf13.tensor2d(extractWeights(channelsIn * channelsOut), [channelsIn, channelsOut]);
-    const fc_bias = tf13.tensor1d(extractWeights(channelsOut));
+    const fc_weights = (void 0)(extractWeights(channelsIn * channelsOut), [channelsIn, channelsOut]);
+    const fc_bias = (void 0)(extractWeights(channelsOut));
     paramMappings.push({ paramPath: `${mappedPrefix}/weights` }, { paramPath: `${mappedPrefix}/bias` });
     return {
       weights: fc_weights,
@@ -1832,9 +1812,9 @@ var SeparableConvParams = class {
 // src/common/extractSeparableConvParamsFactory.ts
 function extractSeparableConvParamsFactory(extractWeights, paramMappings) {
   return (channelsIn, channelsOut, mappedPrefix) => {
-    const depthwise_filter = tf14.tensor4d(extractWeights(3 * 3 * channelsIn), [3, 3, channelsIn, 1]);
-    const pointwise_filter = tf14.tensor4d(extractWeights(channelsIn * channelsOut), [1, 1, channelsIn, channelsOut]);
-    const bias = tf14.tensor1d(extractWeights(channelsOut));
+    const depthwise_filter = (void 0)(extractWeights(3 * 3 * channelsIn), [3, 3, channelsIn, 1]);
+    const pointwise_filter = (void 0)(extractWeights(channelsIn * channelsOut), [1, 1, channelsIn, channelsOut]);
+    const bias = (void 0)(extractWeights(channelsOut));
     paramMappings.push({ paramPath: `${mappedPrefix}/depthwise_filter` }, { paramPath: `${mappedPrefix}/pointwise_filter` }, { paramPath: `${mappedPrefix}/bias` });
     return new SeparableConvParams(depthwise_filter, pointwise_filter, bias);
   };
@@ -1995,15 +1975,15 @@ var FaceFeatureExtractor = class extends NeuralNetwork {
     if (!params) {
       throw new Error("FaceFeatureExtractor - load model before inference");
     }
-    return tf15.tidy(() => {
-      const batchTensor = tf15.cast(input.toBatchTensor(112, true), "float32");
+    return (void 0)(() => {
+      const batchTensor = (void 0)(input.toBatchTensor(112, true), "float32");
       const meanRgb = [122.782, 117.001, 104.298];
       const normalized = normalize(batchTensor, meanRgb).div(255);
       let out = denseBlock4(normalized, params.dense0, true);
       out = denseBlock4(out, params.dense1);
       out = denseBlock4(out, params.dense2);
       out = denseBlock4(out, params.dense3);
-      out = tf15.avgPool(out, [7, 7], [2, 2], "valid");
+      out = (void 0)(out, [7, 7], [2, 2], "valid");
       return out;
     });
   }
@@ -2027,7 +2007,7 @@ var tf17 = __toModule(require_tfjs_esm());
 // src/common/fullyConnectedLayer.ts
 var tf16 = __toModule(require_tfjs_esm());
 function fullyConnectedLayer(x, params) {
-  return tf16.tidy(() => tf16.add(tf16.matMul(x, params.weights), params.bias));
+  return (void 0)(() => (void 0)((void 0)(x, params.weights), params.bias));
 }
 
 // src/faceProcessor/extractParams.ts
@@ -2089,7 +2069,7 @@ var FaceProcessor = class extends NeuralNetwork {
     if (!params) {
       throw new Error(`${this._name} - load model before inference`);
     }
-    return tf17.tidy(() => {
+    return (void 0)(() => {
       const bottleneckFeatures = input instanceof NetInput ? this.faceFeatureExtractor.forwardInput(input) : input;
       return fullyConnectedLayer(bottleneckFeatures.as2D(bottleneckFeatures.shape[0], -1), params.fc);
     });
@@ -2144,7 +2124,7 @@ var FaceExpressionNet = class extends FaceProcessor {
     super("FaceExpressionNet", faceFeatureExtractor);
   }
   forwardInput(input) {
-    return tf18.tidy(() => tf18.softmax(this.runNet(input)));
+    return (void 0)(() => (void 0)(this.runNet(input)));
   }
   async forward(input) {
     return this.forwardInput(await toNetInput(input));
@@ -2152,7 +2132,7 @@ var FaceExpressionNet = class extends FaceProcessor {
   async predictExpressions(input) {
     const netInput = await toNetInput(input);
     const out = await this.forwardInput(netInput);
-    const probabilitesByBatch = await Promise.all(tf18.unstack(out).map(async (t) => {
+    const probabilitesByBatch = await Promise.all((void 0)(out).map(async (t) => {
       const data = t.dataSync();
       t.dispose();
       return data;
@@ -2426,21 +2406,21 @@ function extractParamsFromWeightMap3(weightMap, numMainBlocks) {
 
 // src/xception/TinyXception.ts
 function conv(x, params, stride) {
-  return tf19.add(tf19.conv2d(x, params.filters, stride, "same"), params.bias);
+  return (void 0)((void 0)(x, params.filters, stride, "same"), params.bias);
 }
 function reductionBlock(x, params, isActivateInput = true) {
-  let out = isActivateInput ? tf19.relu(x) : x;
+  let out = isActivateInput ? (void 0)(x) : x;
   out = depthwiseSeparableConv(out, params.separable_conv0, [1, 1]);
-  out = depthwiseSeparableConv(tf19.relu(out), params.separable_conv1, [1, 1]);
-  out = tf19.maxPool(out, [3, 3], [2, 2], "same");
-  out = tf19.add(out, conv(x, params.expansion_conv, [2, 2]));
+  out = depthwiseSeparableConv((void 0)(out), params.separable_conv1, [1, 1]);
+  out = (void 0)(out, [3, 3], [2, 2], "same");
+  out = (void 0)(out, conv(x, params.expansion_conv, [2, 2]));
   return out;
 }
 function mainBlock(x, params) {
-  let out = depthwiseSeparableConv(tf19.relu(x), params.separable_conv0, [1, 1]);
-  out = depthwiseSeparableConv(tf19.relu(out), params.separable_conv1, [1, 1]);
-  out = depthwiseSeparableConv(tf19.relu(out), params.separable_conv2, [1, 1]);
-  out = tf19.add(out, x);
+  let out = depthwiseSeparableConv((void 0)(x), params.separable_conv0, [1, 1]);
+  out = depthwiseSeparableConv((void 0)(out), params.separable_conv1, [1, 1]);
+  out = depthwiseSeparableConv((void 0)(out), params.separable_conv2, [1, 1]);
+  out = (void 0)(out, x);
   return out;
 }
 var TinyXception = class extends NeuralNetwork {
@@ -2453,18 +2433,18 @@ var TinyXception = class extends NeuralNetwork {
     if (!params) {
       throw new Error("TinyXception - load model before inference");
     }
-    return tf19.tidy(() => {
-      const batchTensor = tf19.cast(input.toBatchTensor(112, true), "float32");
+    return (void 0)(() => {
+      const batchTensor = (void 0)(input.toBatchTensor(112, true), "float32");
       const meanRgb = [122.782, 117.001, 104.298];
       const normalized = normalize(batchTensor, meanRgb).div(255);
-      let out = tf19.relu(conv(normalized, params.entry_flow.conv_in, [2, 2]));
+      let out = (void 0)(conv(normalized, params.entry_flow.conv_in, [2, 2]));
       out = reductionBlock(out, params.entry_flow.reduction_block_0, false);
       out = reductionBlock(out, params.entry_flow.reduction_block_1);
       range(this._numMainBlocks, 0, 1).forEach((idx) => {
         out = mainBlock(out, params.middle_flow[`main_block_${idx}`]);
       });
       out = reductionBlock(out, params.exit_flow.reduction_block);
-      out = tf19.relu(depthwiseSeparableConv(out, params.exit_flow.separable_conv, [1, 1]));
+      out = (void 0)(depthwiseSeparableConv(out, params.exit_flow.separable_conv, [1, 1]));
       return out;
     });
   }
@@ -2541,18 +2521,18 @@ var AgeGenderNet = class extends NeuralNetwork {
     if (!params) {
       throw new Error(`${this._name} - load model before inference`);
     }
-    return tf20.tidy(() => {
+    return (void 0)(() => {
       const bottleneckFeatures = input instanceof NetInput ? this.faceFeatureExtractor.forwardInput(input) : input;
-      const pooled = tf20.avgPool(bottleneckFeatures, [7, 7], [2, 2], "valid").as2D(bottleneckFeatures.shape[0], -1);
+      const pooled = (void 0)(bottleneckFeatures, [7, 7], [2, 2], "valid").as2D(bottleneckFeatures.shape[0], -1);
       const age = fullyConnectedLayer(pooled, params.fc.age).as1D();
       const gender = fullyConnectedLayer(pooled, params.fc.gender);
       return { age, gender };
     });
   }
   forwardInput(input) {
-    return tf20.tidy(() => {
+    return (void 0)(() => {
       const { age, gender } = this.runNet(input);
-      return { age, gender: tf20.softmax(gender) };
+      return { age, gender: (void 0)(gender) };
     });
   }
   async forward(input) {
@@ -2561,8 +2541,8 @@ var AgeGenderNet = class extends NeuralNetwork {
   async predictAgeAndGender(input) {
     const netInput = await toNetInput(input);
     const out = await this.forwardInput(netInput);
-    const ages = tf20.unstack(out.age);
-    const genders = tf20.unstack(out.gender);
+    const ages = (void 0)(out.age);
+    const genders = (void 0)(out.gender);
     const ageAndGenderTensors = ages.map((ageTensor, i) => ({
       ageTensor,
       genderTensor: genders[i]
@@ -2622,20 +2602,20 @@ var FaceLandmark68NetBase = class extends FaceProcessor {
       };
     });
     const batchSize = inputDimensions.length;
-    return tf21.tidy(() => {
-      const createInterleavedTensor = (fillX, fillY) => tf21.stack([tf21.fill([68], fillX, "float32"), tf21.fill([68], fillY, "float32")], 1).as2D(1, 136).as1D();
+    return (void 0)(() => {
+      const createInterleavedTensor = (fillX, fillY) => (void 0)([(void 0)([68], fillX, "float32"), (void 0)([68], fillY, "float32")], 1).as2D(1, 136).as1D();
       const getPadding = (batchIdx, cond) => {
         const { width, height } = inputDimensions[batchIdx];
         return cond(width, height) ? Math.abs(width - height) / 2 : 0;
       };
       const getPaddingX = (batchIdx) => getPadding(batchIdx, (w, h) => w < h);
       const getPaddingY = (batchIdx) => getPadding(batchIdx, (w, h) => h < w);
-      const landmarkTensors = output.mul(tf21.fill([batchSize, 136], inputSize, "float32")).sub(tf21.stack(Array.from(Array(batchSize), (_, batchIdx) => createInterleavedTensor(getPaddingX(batchIdx), getPaddingY(batchIdx))))).div(tf21.stack(Array.from(Array(batchSize), (_, batchIdx) => createInterleavedTensor(inputDimensions[batchIdx].width, inputDimensions[batchIdx].height))));
+      const landmarkTensors = output.mul((void 0)([batchSize, 136], inputSize, "float32")).sub((void 0)(Array.from(Array(batchSize), (_, batchIdx) => createInterleavedTensor(getPaddingX(batchIdx), getPaddingY(batchIdx))))).div((void 0)(Array.from(Array(batchSize), (_, batchIdx) => createInterleavedTensor(inputDimensions[batchIdx].width, inputDimensions[batchIdx].height))));
       return landmarkTensors;
     });
   }
   forwardInput(input) {
-    return tf21.tidy(() => {
+    return (void 0)(() => {
       const out = this.runNet(input);
       return this.postProcess(out, input.inputSize, input.inputDimensions.map(([height, width]) => ({ height, width })));
     });
@@ -2645,7 +2625,7 @@ var FaceLandmark68NetBase = class extends FaceProcessor {
   }
   async detectLandmarks(input) {
     const netInput = await toNetInput(input);
-    const landmarkTensors = tf21.tidy(() => tf21.unstack(this.forwardInput(netInput)));
+    const landmarkTensors = (void 0)(() => (void 0)(this.forwardInput(netInput)));
     const landmarksForBatch = await Promise.all(landmarkTensors.map(async (landmarkTensor, batchIdx) => {
       const landmarksArray = Array.from(landmarkTensor.dataSync());
       const xCoords = landmarksArray.filter((_, i) => isEven(i));
@@ -2726,14 +2706,14 @@ var TinyFaceFeatureExtractor = class extends NeuralNetwork {
     if (!params) {
       throw new Error("TinyFaceFeatureExtractor - load model before inference");
     }
-    return tf22.tidy(() => {
-      const batchTensor = tf22.cast(input.toBatchTensor(112, true), "float32");
+    return (void 0)(() => {
+      const batchTensor = (void 0)(input.toBatchTensor(112, true), "float32");
       const meanRgb = [122.782, 117.001, 104.298];
       const normalized = normalize(batchTensor, meanRgb).div(255);
       let out = denseBlock3(normalized, params.dense0, true);
       out = denseBlock3(out, params.dense1);
       out = denseBlock3(out, params.dense2);
-      out = tf22.avgPool(out, [14, 14], [2, 2], "valid");
+      out = (void 0)(out, [14, 14], [2, 2], "valid");
       return out;
     });
   }
@@ -2777,16 +2757,16 @@ var tf24 = __toModule(require_tfjs_esm());
 // src/faceRecognitionNet/scaleLayer.ts
 var tf23 = __toModule(require_tfjs_esm());
 function scale(x, params) {
-  return tf23.add(tf23.mul(x, params.weights), params.biases);
+  return (void 0)((void 0)(x, params.weights), params.biases);
 }
 
 // src/faceRecognitionNet/convLayer.ts
 function convLayer2(x, params, strides, withRelu, padding = "same") {
   const { filters, bias } = params.conv;
-  let out = tf24.conv2d(x, filters, strides, padding);
-  out = tf24.add(out, bias);
+  let out = (void 0)(x, filters, strides, padding);
+  out = (void 0)(out, bias);
   out = scale(out, params.scale);
-  return withRelu ? tf24.relu(out) : out;
+  return withRelu ? (void 0)(out) : out;
 }
 function conv2(x, params) {
   return convLayer2(x, params, [1, 1], true);
@@ -2807,17 +2787,17 @@ function extractorsFactory3(extractWeights, paramMappings) {
     if (isFloat(depth)) {
       throw new Error(`depth has to be an integer: ${depth}, weights.length: ${weights.length}, numFilters: ${numFilters}, filterSize: ${filterSize}`);
     }
-    return tf25.tidy(() => tf25.transpose(tf25.tensor4d(weights, [numFilters, depth, filterSize, filterSize]), [2, 3, 1, 0]));
+    return (void 0)(() => (void 0)((void 0)(weights, [numFilters, depth, filterSize, filterSize]), [2, 3, 1, 0]));
   }
   function extractConvParams(numFilterValues, numFilters, filterSize, mappedPrefix) {
     const filters = extractFilterValues(numFilterValues, numFilters, filterSize);
-    const bias = tf25.tensor1d(extractWeights(numFilters));
+    const bias = (void 0)(extractWeights(numFilters));
     paramMappings.push({ paramPath: `${mappedPrefix}/filters` }, { paramPath: `${mappedPrefix}/bias` });
     return { filters, bias };
   }
   function extractScaleLayerParams(numWeights, mappedPrefix) {
-    const weights = tf25.tensor1d(extractWeights(numWeights));
-    const biases = tf25.tensor1d(extractWeights(numWeights));
+    const weights = (void 0)(extractWeights(numWeights));
+    const biases = (void 0)(extractWeights(numWeights));
     paramMappings.push({ paramPath: `${mappedPrefix}/weights` }, { paramPath: `${mappedPrefix}/biases` });
     return {
       weights,
@@ -2864,7 +2844,7 @@ function extractParams5(weights) {
   const conv256_1 = extractResidualLayerParams(589824, 256, 3, "conv256_1");
   const conv256_2 = extractResidualLayerParams(589824, 256, 3, "conv256_2");
   const conv256_down_out = extractResidualLayerParams(589824, 256, 3, "conv256_down_out");
-  const fc = tf25.tidy(() => tf25.transpose(tf25.tensor2d(extractWeights(256 * 128), [128, 256]), [1, 0]));
+  const fc = (void 0)(() => (void 0)((void 0)(extractWeights(256 * 128), [128, 256]), [1, 0]));
   paramMappings.push({ paramPath: "fc" });
   if (getRemainingWeights().length !== 0) {
     throw new Error(`weights remaing after extract: ${getRemainingWeights().length}`);
@@ -2968,30 +2948,30 @@ var tf26 = __toModule(require_tfjs_esm());
 function residual(x, params) {
   let out = conv2(x, params.conv1);
   out = convNoRelu(out, params.conv2);
-  out = tf26.add(out, x);
-  out = tf26.relu(out);
+  out = (void 0)(out, x);
+  out = (void 0)(out);
   return out;
 }
 function residualDown(x, params) {
   let out = convDown(x, params.conv1);
   out = convNoRelu(out, params.conv2);
-  let pooled = tf26.avgPool(x, 2, 2, "valid");
-  const zeros2 = tf26.zeros(pooled.shape);
+  let pooled = (void 0)(x, 2, 2, "valid");
+  const zeros2 = (void 0)(pooled.shape);
   const isPad = pooled.shape[3] !== out.shape[3];
   const isAdjustShape = pooled.shape[1] !== out.shape[1] || pooled.shape[2] !== out.shape[2];
   if (isAdjustShape) {
     const padShapeX = [...out.shape];
     padShapeX[1] = 1;
-    const zerosW = tf26.zeros(padShapeX);
-    out = tf26.concat([out, zerosW], 1);
+    const zerosW = (void 0)(padShapeX);
+    out = (void 0)([out, zerosW], 1);
     const padShapeY = [...out.shape];
     padShapeY[2] = 1;
-    const zerosH = tf26.zeros(padShapeY);
-    out = tf26.concat([out, zerosH], 2);
+    const zerosH = (void 0)(padShapeY);
+    out = (void 0)([out, zerosH], 2);
   }
-  pooled = isPad ? tf26.concat([pooled, zeros2], 3) : pooled;
-  out = tf26.add(pooled, out);
-  out = tf26.relu(out);
+  pooled = isPad ? (void 0)([pooled, zeros2], 3) : pooled;
+  out = (void 0)(pooled, out);
+  out = (void 0)(out);
   return out;
 }
 
@@ -3005,12 +2985,12 @@ var FaceRecognitionNet = class extends NeuralNetwork {
     if (!params) {
       throw new Error("FaceRecognitionNet - load model before inference");
     }
-    return tf27.tidy(() => {
-      const batchTensor = tf27.cast(input.toBatchTensor(150, true), "float32");
+    return (void 0)(() => {
+      const batchTensor = (void 0)(input.toBatchTensor(150, true), "float32");
       const meanRgb = [122.782, 117.001, 104.298];
       const normalized = normalize(batchTensor, meanRgb).div(255);
       let out = convDown(normalized, params.conv32_down);
-      out = tf27.maxPool(out, 3, 2, "valid");
+      out = (void 0)(out, 3, 2, "valid");
       out = residual(out, params.conv32_1);
       out = residual(out, params.conv32_2);
       out = residual(out, params.conv32_3);
@@ -3026,7 +3006,7 @@ var FaceRecognitionNet = class extends NeuralNetwork {
       out = residual(out, params.conv256_2);
       out = residualDown(out, params.conv256_down_out);
       const globalAvg = out.mean([1, 2]);
-      const fullyConnected = tf27.matMul(globalAvg, params.fc);
+      const fullyConnected = (void 0)(globalAvg, params.fc);
       return fullyConnected;
     });
   }
@@ -3038,7 +3018,7 @@ var FaceRecognitionNet = class extends NeuralNetwork {
     if ((_a = input == null ? void 0 : input.shape) == null ? void 0 : _a.some((dim) => dim <= 0))
       return new Float32Array(128);
     const netInput = await toNetInput(input);
-    const faceDescriptorTensors = tf27.tidy(() => tf27.unstack(this.forwardInput(netInput)));
+    const faceDescriptorTensors = (void 0)(() => (void 0)(this.forwardInput(netInput)));
     const faceDescriptorsForBatch = await Promise.all(faceDescriptorTensors.map((t) => t.data()));
     faceDescriptorTensors.forEach((t) => t.dispose());
     return netInput.isBatchInput ? faceDescriptorsForBatch : faceDescriptorsForBatch[0];
@@ -3092,11 +3072,11 @@ var tf34 = __toModule(require_tfjs_esm());
 var tf28 = __toModule(require_tfjs_esm());
 function extractorsFactory5(extractWeights, paramMappings) {
   function extractDepthwiseConvParams(numChannels, mappedPrefix) {
-    const filters = tf28.tensor4d(extractWeights(3 * 3 * numChannels), [3, 3, numChannels, 1]);
-    const batch_norm_scale = tf28.tensor1d(extractWeights(numChannels));
-    const batch_norm_offset = tf28.tensor1d(extractWeights(numChannels));
-    const batch_norm_mean = tf28.tensor1d(extractWeights(numChannels));
-    const batch_norm_variance = tf28.tensor1d(extractWeights(numChannels));
+    const filters = (void 0)(extractWeights(3 * 3 * numChannels), [3, 3, numChannels, 1]);
+    const batch_norm_scale = (void 0)(extractWeights(numChannels));
+    const batch_norm_offset = (void 0)(extractWeights(numChannels));
+    const batch_norm_mean = (void 0)(extractWeights(numChannels));
+    const batch_norm_variance = (void 0)(extractWeights(numChannels));
     paramMappings.push({ paramPath: `${mappedPrefix}/filters` }, { paramPath: `${mappedPrefix}/batch_norm_scale` }, { paramPath: `${mappedPrefix}/batch_norm_offset` }, { paramPath: `${mappedPrefix}/batch_norm_mean` }, { paramPath: `${mappedPrefix}/batch_norm_variance` });
     return {
       filters,
@@ -3107,8 +3087,8 @@ function extractorsFactory5(extractWeights, paramMappings) {
     };
   }
   function extractConvParams(channelsIn, channelsOut, filterSize, mappedPrefix, isPointwiseConv) {
-    const filters = tf28.tensor4d(extractWeights(channelsIn * channelsOut * filterSize * filterSize), [filterSize, filterSize, channelsIn, channelsOut]);
-    const bias = tf28.tensor1d(extractWeights(channelsOut));
+    const filters = (void 0)(extractWeights(channelsIn * channelsOut * filterSize * filterSize), [filterSize, filterSize, channelsIn, channelsOut]);
+    const bias = (void 0)(extractWeights(channelsOut));
     paramMappings.push({ paramPath: `${mappedPrefix}/filters` }, { paramPath: `${mappedPrefix}/${isPointwiseConv ? "batch_norm_offset" : "bias"}` });
     return { filters, bias };
   }
@@ -3238,7 +3218,7 @@ function extractParams6(weights) {
   } = extractorsFactory5(extractWeights, paramMappings);
   const mobilenetv1 = extractMobilenetV1Params();
   const prediction_layer = extractPredictionLayerParams();
-  const extra_dim = tf28.tensor3d(extractWeights(5118 * 4), [1, 5118, 4]);
+  const extra_dim = (void 0)(extractWeights(5118 * 4), [1, 5118, 4]);
   const output_layer = {
     extra_dim
   };
@@ -3364,27 +3344,27 @@ var tf30 = __toModule(require_tfjs_esm());
 // src/ssdMobilenetv1/pointwiseConvLayer.ts
 var tf29 = __toModule(require_tfjs_esm());
 function pointwiseConvLayer(x, params, strides) {
-  return tf29.tidy(() => {
-    let out = tf29.conv2d(x, params.filters, strides, "same");
-    out = tf29.add(out, params.batch_norm_offset);
-    return tf29.clipByValue(out, 0, 6);
+  return (void 0)(() => {
+    let out = (void 0)(x, params.filters, strides, "same");
+    out = (void 0)(out, params.batch_norm_offset);
+    return (void 0)(out, 0, 6);
   });
 }
 
 // src/ssdMobilenetv1/mobileNetV1.ts
 var epsilon = 0.0010000000474974513;
 function depthwiseConvLayer(x, params, strides) {
-  return tf30.tidy(() => {
-    let out = tf30.depthwiseConv2d(x, params.filters, strides, "same");
-    out = tf30.batchNorm(out, params.batch_norm_mean, params.batch_norm_variance, params.batch_norm_offset, params.batch_norm_scale, epsilon);
-    return tf30.clipByValue(out, 0, 6);
+  return (void 0)(() => {
+    let out = (void 0)(x, params.filters, strides, "same");
+    out = (void 0)(out, params.batch_norm_mean, params.batch_norm_variance, params.batch_norm_offset, params.batch_norm_scale, epsilon);
+    return (void 0)(out, 0, 6);
   });
 }
 function getStridesForLayerIdx(layerIdx) {
   return [2, 4, 6, 12].some((idx) => idx === layerIdx) ? [2, 2] : [1, 1];
 }
 function mobileNetV1(x, params) {
-  return tf30.tidy(() => {
+  return (void 0)(() => {
     let conv11;
     let out = pointwiseConvLayer(x, params.conv_0, [2, 2]);
     const convPairParams = [
@@ -3470,41 +3450,41 @@ function nonMaxSuppression2(boxes, scores, maxOutputSize, iouThreshold, scoreThr
 // src/ssdMobilenetv1/outputLayer.ts
 var tf31 = __toModule(require_tfjs_esm());
 function getCenterCoordinatesAndSizesLayer(x) {
-  const vec = tf31.unstack(tf31.transpose(x, [1, 0]));
+  const vec = (void 0)((void 0)(x, [1, 0]));
   const sizes = [
-    tf31.sub(vec[2], vec[0]),
-    tf31.sub(vec[3], vec[1])
+    (void 0)(vec[2], vec[0]),
+    (void 0)(vec[3], vec[1])
   ];
   const centers = [
-    tf31.add(vec[0], tf31.div(sizes[0], 2)),
-    tf31.add(vec[1], tf31.div(sizes[1], 2))
+    (void 0)(vec[0], (void 0)(sizes[0], 2)),
+    (void 0)(vec[1], (void 0)(sizes[1], 2))
   ];
   return { sizes, centers };
 }
 function decodeBoxesLayer(x0, x1) {
   const { sizes, centers } = getCenterCoordinatesAndSizesLayer(x0);
-  const vec = tf31.unstack(tf31.transpose(x1, [1, 0]));
-  const div0_out = tf31.div(tf31.mul(tf31.exp(tf31.div(vec[2], 5)), sizes[0]), 2);
-  const add0_out = tf31.add(tf31.mul(tf31.div(vec[0], 10), sizes[0]), centers[0]);
-  const div1_out = tf31.div(tf31.mul(tf31.exp(tf31.div(vec[3], 5)), sizes[1]), 2);
-  const add1_out = tf31.add(tf31.mul(tf31.div(vec[1], 10), sizes[1]), centers[1]);
-  return tf31.transpose(tf31.stack([
-    tf31.sub(add0_out, div0_out),
-    tf31.sub(add1_out, div1_out),
-    tf31.add(add0_out, div0_out),
-    tf31.add(add1_out, div1_out)
+  const vec = (void 0)((void 0)(x1, [1, 0]));
+  const div0_out = (void 0)((void 0)((void 0)((void 0)(vec[2], 5)), sizes[0]), 2);
+  const add0_out = (void 0)((void 0)((void 0)(vec[0], 10), sizes[0]), centers[0]);
+  const div1_out = (void 0)((void 0)((void 0)((void 0)(vec[3], 5)), sizes[1]), 2);
+  const add1_out = (void 0)((void 0)((void 0)(vec[1], 10), sizes[1]), centers[1]);
+  return (void 0)((void 0)([
+    (void 0)(add0_out, div0_out),
+    (void 0)(add1_out, div1_out),
+    (void 0)(add0_out, div0_out),
+    (void 0)(add1_out, div1_out)
   ]), [1, 0]);
 }
 function outputLayer(boxPredictions, classPredictions, params) {
-  return tf31.tidy(() => {
+  return (void 0)(() => {
     const batchSize = boxPredictions.shape[0];
-    let boxes = decodeBoxesLayer(tf31.reshape(tf31.tile(params.extra_dim, [batchSize, 1, 1]), [-1, 4]), tf31.reshape(boxPredictions, [-1, 4]));
-    boxes = tf31.reshape(boxes, [batchSize, boxes.shape[0] / batchSize, 4]);
-    const scoresAndClasses = tf31.sigmoid(tf31.slice(classPredictions, [0, 0, 1], [-1, -1, -1]));
-    let scores = tf31.slice(scoresAndClasses, [0, 0, 0], [-1, -1, 1]);
-    scores = tf31.reshape(scores, [batchSize, scores.shape[1]]);
-    const boxesByBatch = tf31.unstack(boxes);
-    const scoresByBatch = tf31.unstack(scores);
+    let boxes = decodeBoxesLayer((void 0)((void 0)(params.extra_dim, [batchSize, 1, 1]), [-1, 4]), (void 0)(boxPredictions, [-1, 4]));
+    boxes = (void 0)(boxes, [batchSize, boxes.shape[0] / batchSize, 4]);
+    const scoresAndClasses = (void 0)((void 0)(classPredictions, [0, 0, 1], [-1, -1, -1]));
+    let scores = (void 0)(scoresAndClasses, [0, 0, 0], [-1, -1, 1]);
+    scores = (void 0)(scores, [batchSize, scores.shape[1]]);
+    const boxesByBatch = (void 0)(boxes);
+    const scoresByBatch = (void 0)(scores);
     return { boxes: boxesByBatch, scores: scoresByBatch };
   });
 }
@@ -3515,17 +3495,17 @@ var tf33 = __toModule(require_tfjs_esm());
 // src/ssdMobilenetv1/boxPredictionLayer.ts
 var tf32 = __toModule(require_tfjs_esm());
 function boxPredictionLayer(x, params) {
-  return tf32.tidy(() => {
+  return (void 0)(() => {
     const batchSize = x.shape[0];
-    const boxPredictionEncoding = tf32.reshape(convLayer(x, params.box_encoding_predictor), [batchSize, -1, 1, 4]);
-    const classPrediction = tf32.reshape(convLayer(x, params.class_predictor), [batchSize, -1, 3]);
+    const boxPredictionEncoding = (void 0)(convLayer(x, params.box_encoding_predictor), [batchSize, -1, 1, 4]);
+    const classPrediction = (void 0)(convLayer(x, params.class_predictor), [batchSize, -1, 3]);
     return { boxPredictionEncoding, classPrediction };
   });
 }
 
 // src/ssdMobilenetv1/predictionLayer.ts
 function predictionLayer(x, conv11, params) {
-  return tf33.tidy(() => {
+  return (void 0)(() => {
     const conv0 = pointwiseConvLayer(x, params.conv_0, [1, 1]);
     const conv1 = pointwiseConvLayer(conv0, params.conv_1, [2, 2]);
     const conv22 = pointwiseConvLayer(conv1, params.conv_2, [1, 1]);
@@ -3540,7 +3520,7 @@ function predictionLayer(x, conv11, params) {
     const boxPrediction3 = boxPredictionLayer(conv3, params.box_predictor_3);
     const boxPrediction4 = boxPredictionLayer(conv5, params.box_predictor_4);
     const boxPrediction5 = boxPredictionLayer(conv7, params.box_predictor_5);
-    const boxPredictions = tf33.concat([
+    const boxPredictions = (void 0)([
       boxPrediction0.boxPredictionEncoding,
       boxPrediction1.boxPredictionEncoding,
       boxPrediction2.boxPredictionEncoding,
@@ -3548,7 +3528,7 @@ function predictionLayer(x, conv11, params) {
       boxPrediction4.boxPredictionEncoding,
       boxPrediction5.boxPredictionEncoding
     ], 1);
-    const classPredictions = tf33.concat([
+    const classPredictions = (void 0)([
       boxPrediction0.classPrediction,
       boxPrediction1.classPrediction,
       boxPrediction2.classPrediction,
@@ -3593,9 +3573,9 @@ var SsdMobilenetv1 = class extends NeuralNetwork {
     const { params } = this;
     if (!params)
       throw new Error("SsdMobilenetv1 - load model before inference");
-    return tf34.tidy(() => {
-      const batchTensor = tf34.cast(input.toBatchTensor(512, false), "float32");
-      const x = tf34.sub(tf34.div(batchTensor, 127.5), 1);
+    return (void 0)(() => {
+      const batchTensor = (void 0)(input.toBatchTensor(512, false), "float32");
+      const x = (void 0)((void 0)(batchTensor, 127.5), 1);
       const features = mobileNetV1(x, params.mobilenetv1);
       const { boxPredictions, classPredictions } = predictionLayer(features.out, features.conv11, params.prediction_layer);
       return outputLayer(boxPredictions, classPredictions, params.output_layer);
@@ -3712,20 +3692,20 @@ var tf36 = __toModule(require_tfjs_esm());
 // src/tinyYolov2/leaky.ts
 var tf35 = __toModule(require_tfjs_esm());
 function leaky(x) {
-  return tf35.tidy(() => {
-    const min = tf35.mul(x, tf35.scalar(0.10000000149011612));
-    return tf35.add(tf35.relu(tf35.sub(x, min)), min);
+  return (void 0)(() => {
+    const min = (void 0)(x, (void 0)(0.10000000149011612));
+    return (void 0)((void 0)((void 0)(x, min)), min);
   });
 }
 
 // src/tinyYolov2/convWithBatchNorm.ts
 function convWithBatchNorm(x, params) {
-  return tf36.tidy(() => {
-    let out = tf36.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]]);
-    out = tf36.conv2d(out, params.conv.filters, [1, 1], "valid");
-    out = tf36.sub(out, params.bn.sub);
-    out = tf36.mul(out, params.bn.truediv);
-    out = tf36.add(out, params.conv.bias);
+  return (void 0)(() => {
+    let out = (void 0)(x, [[0, 0], [1, 1], [1, 1], [0, 0]]);
+    out = (void 0)(out, params.conv.filters, [1, 1], "valid");
+    out = (void 0)(out, params.bn.sub);
+    out = (void 0)(out, params.bn.truediv);
+    out = (void 0)(out, params.conv.bias);
     return leaky(out);
   });
 }
@@ -3733,10 +3713,10 @@ function convWithBatchNorm(x, params) {
 // src/tinyYolov2/depthwiseSeparableConv.ts
 var tf37 = __toModule(require_tfjs_esm());
 function depthwiseSeparableConv2(x, params) {
-  return tf37.tidy(() => {
-    let out = tf37.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]]);
-    out = tf37.separableConv2d(out, params.depthwise_filter, params.pointwise_filter, [1, 1], "valid");
-    out = tf37.add(out, params.bias);
+  return (void 0)(() => {
+    let out = (void 0)(x, [[0, 0], [1, 1], [1, 1], [0, 0]]);
+    out = (void 0)(out, params.depthwise_filter, params.pointwise_filter, [1, 1], "valid");
+    out = (void 0)(out, params.bias);
     return leaky(out);
   });
 }
@@ -3746,8 +3726,8 @@ var tf38 = __toModule(require_tfjs_esm());
 function extractorsFactory7(extractWeights, paramMappings) {
   const extractConvParams = extractConvParamsFactory(extractWeights, paramMappings);
   function extractBatchNormParams(size, mappedPrefix) {
-    const sub6 = tf38.tensor1d(extractWeights(size));
-    const truediv = tf38.tensor1d(extractWeights(size));
+    const sub6 = (void 0)(extractWeights(size));
+    const truediv = (void 0)(extractWeights(size));
     paramMappings.push({ paramPath: `${mappedPrefix}/sub` }, { paramPath: `${mappedPrefix}/truediv` });
     return { sub: sub6, truediv };
   }
@@ -3928,34 +3908,34 @@ var _TinyYolov2Base = class extends NeuralNetwork {
   }
   runTinyYolov2(x, params) {
     let out = convWithBatchNorm(x, params.conv0);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = convWithBatchNorm(out, params.conv1);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = convWithBatchNorm(out, params.conv2);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = convWithBatchNorm(out, params.conv3);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = convWithBatchNorm(out, params.conv4);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = convWithBatchNorm(out, params.conv5);
-    out = tf39.maxPool(out, [2, 2], [1, 1], "same");
+    out = (void 0)(out, [2, 2], [1, 1], "same");
     out = convWithBatchNorm(out, params.conv6);
     out = convWithBatchNorm(out, params.conv7);
     return convLayer(out, params.conv8, "valid", false);
   }
   runMobilenet(x, params) {
     let out = this.config.isFirstLayerConv2d ? leaky(convLayer(x, params.conv0, "valid", false)) : depthwiseSeparableConv2(x, params.conv0);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = depthwiseSeparableConv2(out, params.conv1);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = depthwiseSeparableConv2(out, params.conv2);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = depthwiseSeparableConv2(out, params.conv3);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = depthwiseSeparableConv2(out, params.conv4);
-    out = tf39.maxPool(out, [2, 2], [2, 2], "same");
+    out = (void 0)(out, [2, 2], [2, 2], "same");
     out = depthwiseSeparableConv2(out, params.conv5);
-    out = tf39.maxPool(out, [2, 2], [1, 1], "same");
+    out = (void 0)(out, [2, 2], [1, 1], "same");
     out = params.conv6 ? depthwiseSeparableConv2(out, params.conv6) : out;
     out = params.conv7 ? depthwiseSeparableConv2(out, params.conv7) : out;
     return convLayer(out, params.conv8, "valid", false);
@@ -3965,8 +3945,8 @@ var _TinyYolov2Base = class extends NeuralNetwork {
     if (!params) {
       throw new Error("TinyYolov2 - load model before inference");
     }
-    return tf39.tidy(() => {
-      let batchTensor = tf39.cast(input.toBatchTensor(inputSize, false), "float32");
+    return (void 0)(() => {
+      let batchTensor = (void 0)(input.toBatchTensor(inputSize, false), "float32");
       batchTensor = this.config.meanRgb ? normalize(batchTensor, this.config.meanRgb) : batchTensor;
       batchTensor = batchTensor.div(255);
       return this.config.withSeparableConvs ? this.runMobilenet(batchTensor, params) : this.runTinyYolov2(batchTensor, params);
@@ -3979,7 +3959,7 @@ var _TinyYolov2Base = class extends NeuralNetwork {
     const { inputSize, scoreThreshold } = new TinyYolov2Options(forwardParams);
     const netInput = await toNetInput(input);
     const out = await this.forwardInput(netInput, inputSize);
-    const out0 = tf39.tidy(() => tf39.unstack(out)[0].expandDims());
+    const out0 = (void 0)(() => (void 0)(out)[0].expandDims());
     const inputDimensions = {
       width: netInput.getInputWidth(0),
       height: netInput.getInputHeight(0)
@@ -4016,11 +3996,11 @@ var _TinyYolov2Base = class extends NeuralNetwork {
     const correctionFactorY = inputSize / height;
     const numCells = outputTensor.shape[1];
     const numBoxes = this.config.anchors.length;
-    const [boxesTensor, scoresTensor, classScoresTensor] = tf39.tidy(() => {
+    const [boxesTensor, scoresTensor, classScoresTensor] = (void 0)(() => {
       const reshaped = outputTensor.reshape([numCells, numCells, numBoxes, this.boxEncodingSize]);
       const boxes = reshaped.slice([0, 0, 0, 0], [numCells, numCells, numBoxes, 4]);
       const scores = reshaped.slice([0, 0, 0, 4], [numCells, numCells, numBoxes, 1]);
-      const classScores = this.withClassScores ? tf39.softmax(reshaped.slice([0, 0, 0, 5], [numCells, numCells, numBoxes, this.config.classes.length]), 3) : tf39.scalar(0);
+      const classScores = this.withClassScores ? (void 0)(reshaped.slice([0, 0, 0, 5], [numCells, numCells, numBoxes, this.config.classes.length]), 3) : (void 0)(0);
       return [boxes, scores, classScores];
     });
     const results = [];
@@ -4134,9 +4114,9 @@ var tf41 = __toModule(require_tfjs_esm());
 var tf40 = __toModule(require_tfjs_esm());
 async function extractAllFacesAndComputeResults(parentResults, input, computeResults, extractedFaces, getRectForAlignment = ({ alignedRect }) => alignedRect) {
   const faceBoxes = parentResults.map((parentResult) => isWithFaceLandmarks(parentResult) ? getRectForAlignment(parentResult) : parentResult.detection);
-  const faces = extractedFaces || (input instanceof tf40.Tensor ? await extractFaceTensors(input, faceBoxes) : await extractFaces(input, faceBoxes));
+  const faces = extractedFaces || (input instanceof void 0 ? await extractFaceTensors(input, faceBoxes) : await extractFaces(input, faceBoxes));
   const results = await computeResults(faces);
-  faces.forEach((f) => f instanceof tf40.Tensor && f.dispose());
+  faces.forEach((f) => f instanceof void 0 && f.dispose());
   return results;
 }
 async function extractSingleFaceAndComputeResult(parentResult, input, computeResult, extractedFaces, getRectForAlignment) {
@@ -4368,9 +4348,9 @@ var DetectAllFaceLandmarksTask = class extends DetectFaceLandmarksTaskBase {
   async run() {
     const parentResults = await this.parentTask;
     const detections = parentResults.map((res) => res.detection);
-    const faces = this.input instanceof tf41.Tensor ? await extractFaceTensors(this.input, detections) : await extractFaces(this.input, detections);
+    const faces = this.input instanceof void 0 ? await extractFaceTensors(this.input, detections) : await extractFaces(this.input, detections);
     const faceLandmarksByFace = await Promise.all(faces.map((face) => this.landmarkNet.detectLandmarks(face)));
-    faces.forEach((f) => f instanceof tf41.Tensor && f.dispose());
+    faces.forEach((f) => f instanceof void 0 && f.dispose());
     return parentResults.map((parentResult, i) => extendWithFaceLandmarks(parentResult, faceLandmarksByFace[i]));
   }
   withFaceExpressions() {
@@ -4390,9 +4370,9 @@ var DetectSingleFaceLandmarksTask = class extends DetectFaceLandmarksTaskBase {
       return void 0;
     }
     const { detection } = parentResult;
-    const faces = this.input instanceof tf41.Tensor ? await extractFaceTensors(this.input, [detection]) : await extractFaces(this.input, [detection]);
+    const faces = this.input instanceof void 0 ? await extractFaceTensors(this.input, [detection]) : await extractFaces(this.input, [detection]);
     const landmarks = await this.landmarkNet.detectLandmarks(faces[0]);
-    faces.forEach((f) => f instanceof tf41.Tensor && f.dispose());
+    faces.forEach((f) => f instanceof void 0 && f.dispose());
     return extendWithFaceLandmarks(parentResult, landmarks);
   }
   withFaceExpressions() {
