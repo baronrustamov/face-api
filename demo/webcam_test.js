@@ -309,4 +309,4 @@ async function main() {
 }
 
 // start processing as soon as page is loaded
-window.onload = main;
+//window.onload = main;
