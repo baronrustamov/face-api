@@ -205,8 +205,6 @@ async function setupCamera() {
   log('Setting up camera');
   // setup webcam. note that navigator.mediaDevices requires that page is accessed via https
 
-  /*
-
   if (!navigator.mediaDevices) {
     log('Camera Error: access not supported');
     return null;
@@ -268,7 +266,6 @@ async function setupCamera() {
     };
   });
 }
- */
 
 async function setupFaceAPI() {
   // load face-api models
