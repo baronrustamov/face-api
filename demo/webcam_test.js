@@ -88,7 +88,6 @@ const handleStream = (stream) => {
 
 };
 
-
 const getCameraSelection = async () => {
   const devices = await navigator.mediaDevices.enumerateDevices();
   const videoDevices = devices.filter(device => device.kind === 'videoinput');
@@ -97,6 +96,10 @@ const getCameraSelection = async () => {
   });
   cameraOptions.innerHTML = options.join('');
 };
+
+async function getDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+}
 
 getCameraSelection();
 
@@ -201,6 +204,9 @@ async function setupCamera() {
   let msg = '';
   log('Setting up camera');
   // setup webcam. note that navigator.mediaDevices requires that page is accessed via https
+
+  /*
+
   if (!navigator.mediaDevices) {
     log('Camera Error: access not supported');
     return null;
@@ -262,6 +268,7 @@ async function setupCamera() {
     };
   });
 }
+ */
 
 async function setupFaceAPI() {
   // load face-api models
